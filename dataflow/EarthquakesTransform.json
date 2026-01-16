@@ -1,0 +1,53 @@
+{
+	"name": "EarthquakesTransform",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "earthquake",
+						"type": "DatasetReference"
+					},
+					"name": "earthquake"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          mag as double,",
+				"          place as string,",
+				"          time as long,",
+				"          updated as long,",
+				"          tz as string,",
+				"          url as string,",
+				"          detail as string,",
+				"          felt as integer,",
+				"          cdi as double,",
+				"          mmi as double,",
+				"          alert as string,",
+				"          status as string,",
+				"          tsunami as boolean,",
+				"          sig as integer,",
+				"          net as string,",
+				"          code as string,",
+				"          ids as string,",
+				"          sources as string,",
+				"          types as string,",
+				"          nst as integer,",
+				"          dmin as double,",
+				"          rms as double,",
+				"          gap as integer,",
+				"          magType as string,",
+				"          type as string,",
+				"          title as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> earthquake"
+			]
+		}
+	}
+}
