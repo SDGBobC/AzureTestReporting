@@ -1,0 +1,9 @@
+{
+	"name": "adf-rpt-dev",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "be5b292f-642b-4136-a4bf-c821519cf97d",
+		"tenantId": "316d3d07-900c-4e3d-99cb-215902dffe90"
+	}
+}
