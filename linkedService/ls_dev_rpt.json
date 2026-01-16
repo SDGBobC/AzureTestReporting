@@ -1,0 +1,17 @@
+{
+	"name": "ls_dev_rpt",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "bc-sdg-reporting-dev.database.windows.net",
+			"database": "reporting",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "sa_bc_sdg",
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQDU2MEFCNDRGLUEyQzEtNDlCOC1CNTQxLTBERDIzMDM2MzUzM19iMDFiYzZlZS1iYTY1LTQ3ZWUtYTA3ZS03ODcyNTRmNWUxOGEiDQp9"
+		}
+	}
+}

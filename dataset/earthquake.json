@@ -1,0 +1,132 @@
+{
+	"name": "earthquake",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_dev_stg",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "mag",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "place",
+				"type": "nvarchar"
+			},
+			{
+				"name": "time",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "updated",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "tz",
+				"type": "nvarchar"
+			},
+			{
+				"name": "url",
+				"type": "nvarchar"
+			},
+			{
+				"name": "detail",
+				"type": "nvarchar"
+			},
+			{
+				"name": "felt",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "cdi",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "mmi",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "alert",
+				"type": "nvarchar"
+			},
+			{
+				"name": "status",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tsunami",
+				"type": "bit"
+			},
+			{
+				"name": "sig",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "net",
+				"type": "nvarchar"
+			},
+			{
+				"name": "code",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ids",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sources",
+				"type": "nvarchar"
+			},
+			{
+				"name": "types",
+				"type": "nvarchar"
+			},
+			{
+				"name": "nst",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "dmin",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "rms",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "gap",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "magType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "title",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "earthquake"
+		}
+	}
+}
