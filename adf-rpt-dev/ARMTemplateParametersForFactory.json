@@ -28,6 +28,12 @@
 		},
 		"ls_dev_stg_properties_typeProperties_userName": {
 			"value": "sa_bc_sdg"
+		},
+		"trigger1_properties_Earthquakes_parameters_starttime": {
+			"value": "@utcNow('d')"
+		},
+		"trigger1_properties_Earthquakes_parameters_endtime": {
+			"value": "@adddays(utcNow('d'), 1, 'd')"
 		}
 	}
 }

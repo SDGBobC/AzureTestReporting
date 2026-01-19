@@ -38,6 +38,14 @@
 		"ls_dev_stg_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa_bc_sdg"
+		},
+		"trigger1_properties_Earthquakes_parameters_starttime": {
+			"type": "string",
+			"defaultValue": "@utcNow('d')"
+		},
+		"trigger1_properties_Earthquakes_parameters_endtime": {
+			"type": "string",
+			"defaultValue": "@adddays(utcNow('d'), 1, 'd')"
 		}
 	},
 	"variables": {
@@ -551,6 +559,41 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/earthquake')]",
 				"[concat(variables('factoryId'), '/datasets/rptEarthquake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "Earthquakes",
+							"type": "PipelineReference"
+						},
+						"parameters": {
+							"starttime": "[parameters('trigger1_properties_Earthquakes_parameters_starttime')]",
+							"endtime": "[parameters('trigger1_properties_Earthquakes_parameters_endtime')]"
+						}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Day",
+						"interval": 1,
+						"startTime": "2026-01-21T11:00:00",
+						"endTime": "2026-01-23T20:45:00",
+						"timeZone": "Central Standard Time",
+						"schedule": {}
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Earthquakes')]"
 			]
 		}
 	]
