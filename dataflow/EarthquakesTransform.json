@@ -16,9 +16,6 @@
 			"transformations": [
 				{
 					"name": "selectColumns"
-				},
-				{
-					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -34,22 +31,22 @@
 				"          tz as string,",
 				"          url as string,",
 				"          detail as string,",
-				"          felt as short,",
+				"          felt as integer,",
 				"          cdi as double,",
 				"          mmi as double,",
 				"          alert as string,",
 				"          status as string,",
 				"          tsunami as boolean,",
-				"          sig as short,",
+				"          sig as integer,",
 				"          net as string,",
 				"          code as string,",
 				"          ids as string,",
 				"          sources as string,",
 				"          types as string,",
-				"          nst as short,",
+				"          nst as integer,",
 				"          dmin as double,",
 				"          rms as double,",
-				"          gap as short,",
+				"          gap as integer,",
 				"          magType as string,",
 				"          type as string,",
 				"          title as string",
@@ -61,8 +58,8 @@
 				"earthquake select(mapColumn(",
 				"          magnitude = mag,",
 				"          place,",
-				"          time,",
-				"          updated,",
+				"          earthquake_time_id = time,",
+				"          updated_time_id = updated,",
 				"          url,",
 				"          alert,",
 				"          status,",
@@ -72,8 +69,7 @@
 				"          title_of_feed = title",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectColumns",
-				"selectColumns derive(ReferenceTime = \"1970-01-01T00:00:00.000Z\") ~> derivedColumn1"
+				"     skipDuplicateMapOutputs: true) ~> selectColumns"
 			]
 		}
 	}
