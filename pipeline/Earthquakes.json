@@ -17,7 +17,17 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "EarthquakesTransform",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"parameters": {
+							"starttime": {
+								"value": "'@{utcNow('d')}'",
+								"type": "Expression"
+							},
+							"endtime": {
+								"value": "'@{adddays(utcNow('d'), 1, 'd')}'",
+								"type": "Expression"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
