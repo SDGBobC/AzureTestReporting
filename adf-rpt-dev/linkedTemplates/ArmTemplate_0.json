@@ -432,6 +432,7 @@
 						"     updateable:false,",
 						"     upsertable:false,",
 						"     format: 'table',",
+						"     preSQLs:[(\"DELETE FROM dbo.earthquake_info WHERE dateadd(ms, earthquake_time_id, '1970-01-01T00:00:00.000Z') BETWEEN '{$starttime}' AND '{$endtime}' \")],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     errorHandlingOption: 'stopOnFirstError',",
