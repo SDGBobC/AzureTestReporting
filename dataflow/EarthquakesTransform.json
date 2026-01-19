@@ -13,7 +13,14 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "selectColumns"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
 			"scriptLines": [
 				"parameters{",
 				"     starttime as string (\"2026-01-01\"),",
@@ -27,22 +34,22 @@
 				"          tz as string,",
 				"          url as string,",
 				"          detail as string,",
-				"          felt as integer,",
+				"          felt as short,",
 				"          cdi as double,",
 				"          mmi as double,",
 				"          alert as string,",
 				"          status as string,",
 				"          tsunami as boolean,",
-				"          sig as integer,",
+				"          sig as short,",
 				"          net as string,",
 				"          code as string,",
 				"          ids as string,",
 				"          sources as string,",
 				"          types as string,",
-				"          nst as integer,",
+				"          nst as short,",
 				"          dmin as double,",
 				"          rms as double,",
-				"          gap as integer,",
+				"          gap as short,",
 				"          magType as string,",
 				"          type as string,",
 				"          title as string",
@@ -50,7 +57,23 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> earthquake"
+				"     format: 'table') ~> earthquake",
+				"earthquake select(mapColumn(",
+				"          magnitude = mag,",
+				"          place,",
+				"          time,",
+				"          updated,",
+				"          url,",
+				"          alert,",
+				"          status,",
+				"          tsunami_warning = tsunami,",
+				"          number_seismic_stations = nst,",
+				"          event_significance = sig,",
+				"          title_of_feed = title",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectColumns",
+				"selectColumns derive(ReferenceTime = \"1970-01-01T00:00:00.000Z\") ~> derivedColumn1"
 			]
 		}
 	}
