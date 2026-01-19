@@ -1,0 +1,557 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adf-rpt-dev"
+		},
+		"ls_dev_rpt_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_dev_rpt'"
+		},
+		"ls_dev_stg_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ls_dev_stg'"
+		},
+		"ls_dev_rpt_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "bc-sdg-reporting-dev.database.windows.net"
+		},
+		"ls_dev_rpt_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "reporting"
+		},
+		"ls_dev_rpt_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa_bc_sdg"
+		},
+		"ls_dev_stg_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "bc-sdg-reporting-dev.database.windows.net"
+		},
+		"ls_dev_stg_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "staging"
+		},
+		"ls_dev_stg_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa_bc_sdg"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_dev_rpt')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('ls_dev_rpt_properties_typeProperties_server')]",
+					"database": "[parameters('ls_dev_rpt_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('ls_dev_rpt_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('ls_dev_rpt_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_dev_stg')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('ls_dev_stg_properties_typeProperties_server')]",
+					"database": "[parameters('ls_dev_stg_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('ls_dev_stg_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('ls_dev_stg_password')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/earthquake')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_dev_stg",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "mag",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "place",
+						"type": "nvarchar"
+					},
+					{
+						"name": "time",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "updated",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "tz",
+						"type": "nvarchar"
+					},
+					{
+						"name": "url",
+						"type": "nvarchar"
+					},
+					{
+						"name": "detail",
+						"type": "nvarchar"
+					},
+					{
+						"name": "felt",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "cdi",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "mmi",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "alert",
+						"type": "nvarchar"
+					},
+					{
+						"name": "status",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tsunami",
+						"type": "bit"
+					},
+					{
+						"name": "sig",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "net",
+						"type": "nvarchar"
+					},
+					{
+						"name": "code",
+						"type": "nvarchar"
+					},
+					{
+						"name": "ids",
+						"type": "nvarchar"
+					},
+					{
+						"name": "sources",
+						"type": "nvarchar"
+					},
+					{
+						"name": "types",
+						"type": "nvarchar"
+					},
+					{
+						"name": "nst",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "dmin",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "rms",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "gap",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "magType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "title",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "earthquake"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_dev_stg')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/rptEarthquake')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_dev_rpt",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "earthquake_time_id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "datetime_of_earthquake",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "updated_time_id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "updatetime_of_earthquake",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "magnitude",
+						"type": "float",
+						"precision": 15
+					},
+					{
+						"name": "mag_type",
+						"type": "nvarchar"
+					},
+					{
+						"name": "place",
+						"type": "nvarchar"
+					},
+					{
+						"name": "web_link",
+						"type": "nvarchar"
+					},
+					{
+						"name": "alert",
+						"type": "nvarchar"
+					},
+					{
+						"name": "status",
+						"type": "nvarchar"
+					},
+					{
+						"name": "tsunami_warning",
+						"type": "bit"
+					},
+					{
+						"name": "number_seismic_stations",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "title_of_feed",
+						"type": "nvarchar"
+					},
+					{
+						"name": "event_significance",
+						"type": "smallint",
+						"precision": 5
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "earthquake_info"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_dev_rpt')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/EarthquakesTransform')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "earthquake",
+								"type": "DatasetReference"
+							},
+							"name": "earthquake"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "rptEarthquake",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "selectColumns"
+						},
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     starttime as string (\"2026-01-01\"),",
+						"     endtime as string (\"2026-01-02\")",
+						"}",
+						"source(output(",
+						"          mag as double,",
+						"          place as string,",
+						"          time as long,",
+						"          updated as long,",
+						"          tz as string,",
+						"          url as string,",
+						"          detail as string,",
+						"          felt as short,",
+						"          cdi as double,",
+						"          mmi as double,",
+						"          alert as string,",
+						"          status as string,",
+						"          tsunami as boolean,",
+						"          sig as short,",
+						"          net as string,",
+						"          code as string,",
+						"          ids as string,",
+						"          sources as string,",
+						"          types as string,",
+						"          nst as short,",
+						"          dmin as double,",
+						"          rms as double,",
+						"          gap as short,",
+						"          magType as string,",
+						"          type as string,",
+						"          title as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: (\"select * from dbo.earthquake where dateadd(ms, time, '1970-01-01T00:00:00.000Z') between '{$starttime}' and '{$endtime}'\"),",
+						"     format: 'query') ~> earthquake",
+						"earthquake select(mapColumn(",
+						"          magnitude = mag,",
+						"          place,",
+						"          earthquake_time_id = time,",
+						"          updated_time_id = updated,",
+						"          web_link = url,",
+						"          alert,",
+						"          status,",
+						"          tsunami_warning = tsunami,",
+						"          number_seismic_stations = nst,",
+						"          event_significance = sig,",
+						"          title_of_feed = title,",
+						"          magType",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> selectColumns",
+						"selectColumns derive(datetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC'),",
+						"          updatetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC')) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          earthquake_time_id as long,",
+						"          datetime_of_earthquake as timestamp,",
+						"          updated_time_id as long,",
+						"          updatetime_of_earthquake as timestamp,",
+						"          magnitude as double,",
+						"          mag_type as string,",
+						"          place as string,",
+						"          web_link as string,",
+						"          alert as string,",
+						"          status as string,",
+						"          tsunami_warning as boolean,",
+						"          number_seismic_stations as integer,",
+						"          title_of_feed as string,",
+						"          event_significance as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          earthquake_time_id,",
+						"          datetime_of_earthquake,",
+						"          updated_time_id,",
+						"          updatetime_of_earthquake,",
+						"          magnitude,",
+						"          mag_type = magType,",
+						"          place,",
+						"          web_link,",
+						"          alert,",
+						"          status,",
+						"          tsunami_warning,",
+						"          number_seismic_stations,",
+						"          title_of_feed,",
+						"          event_significance",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/earthquake')]",
+				"[concat(variables('factoryId'), '/datasets/rptEarthquake')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Earthquakes')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "EarthquakesTransform",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "EarthquakesTransform",
+								"type": "DataFlowReference",
+								"parameters": {
+									"starttime": {
+										"value": "'@{pipeline().parameters.starttime}'",
+										"type": "Expression"
+									},
+									"endtime": {
+										"value": "'@{pipeline().parameters.endtime}'",
+										"type": "Expression"
+									}
+								},
+								"datasetParameters": {
+									"earthquake": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					},
+					{
+						"name": "UpdateDates",
+						"type": "Script",
+						"dependsOn": [
+							{
+								"activity": "EarthquakesTransform",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"linkedServiceName": {
+							"referenceName": "ls_dev_rpt",
+							"type": "LinkedServiceReference"
+						},
+						"typeProperties": {
+							"scripts": [
+								{
+									"type": "Query",
+									"text": {
+										"value": "update\tdbo.earthquake_info\nset\t\tdatetime_of_earthquake = dateadd(ms, earthquake_time_id, '1970-01-01T00:00:00.000Z'),\n\t\tupdatetime_of_earthquake = dateadd(ms, updated_time_id, '1970-01-01T00:00:00.000Z')\nfrom\tdbo.earthquake_info",
+										"type": "Expression"
+									}
+								}
+							],
+							"scriptBlockExecutionTimeout": "02:00:00"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"starttime": {
+						"type": "string",
+						"defaultValue": "@utcNow('d')"
+					},
+					"endtime": {
+						"type": "string",
+						"defaultValue": "@adddays(utcNow('d'), 1, 'd')"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/EarthquakesTransform')]",
+				"[concat(variables('factoryId'), '/linkedServices/ls_dev_rpt')]"
+			]
+		}
+	]
+}

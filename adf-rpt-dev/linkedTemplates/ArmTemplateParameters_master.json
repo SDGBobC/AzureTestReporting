@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-rpt-dev"
+		},
+		"ls_dev_rpt_password": {
+			"value": ""
+		},
+		"ls_dev_stg_password": {
+			"value": ""
+		},
+		"ls_dev_rpt_properties_typeProperties_server": {
+			"value": "bc-sdg-reporting-dev.database.windows.net"
+		},
+		"ls_dev_rpt_properties_typeProperties_database": {
+			"value": "reporting"
+		},
+		"ls_dev_rpt_properties_typeProperties_userName": {
+			"value": "sa_bc_sdg"
+		},
+		"ls_dev_stg_properties_typeProperties_server": {
+			"value": "bc-sdg-reporting-dev.database.windows.net"
+		},
+		"ls_dev_stg_properties_typeProperties_database": {
+			"value": "staging"
+		},
+		"ls_dev_stg_properties_typeProperties_userName": {
+			"value": "sa_bc_sdg"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
