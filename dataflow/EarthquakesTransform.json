@@ -12,10 +12,21 @@
 					"name": "earthquake"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "rptEarthquake",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "selectColumns"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -60,16 +71,61 @@
 				"          place,",
 				"          earthquake_time_id = time,",
 				"          updated_time_id = updated,",
-				"          url,",
+				"          web_link = url,",
 				"          alert,",
 				"          status,",
 				"          tsunami_warning = tsunami,",
 				"          number_seismic_stations = nst,",
 				"          event_significance = sig,",
-				"          title_of_feed = title",
+				"          title_of_feed = title,",
+				"          magType",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectColumns"
+				"     skipDuplicateMapOutputs: true) ~> selectColumns",
+				"selectColumns derive(datetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC'),",
+				"          updatetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC')) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          earthquake_time_id as long,",
+				"          datetime_of_earthquake as timestamp,",
+				"          updated_time_id as long,",
+				"          updatetime_of_earthquake as timestamp,",
+				"          magnitude as double,",
+				"          mag_type as string,",
+				"          place as string,",
+				"          web_link as string,",
+				"          alert as string,",
+				"          status as string,",
+				"          tsunami_warning as boolean,",
+				"          number_seismic_stations as integer,",
+				"          title_of_feed as string,",
+				"          event_significance as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          earthquake_time_id,",
+				"          datetime_of_earthquake,",
+				"          updated_time_id,",
+				"          updatetime_of_earthquake,",
+				"          magnitude,",
+				"          mag_type = magType,",
+				"          place,",
+				"          web_link,",
+				"          alert,",
+				"          status,",
+				"          tsunami_warning,",
+				"          number_seismic_stations,",
+				"          title_of_feed,",
+				"          event_significance",
+				"     )) ~> sink1"
 			]
 		}
 	}

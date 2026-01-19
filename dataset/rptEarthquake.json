@@ -1,0 +1,82 @@
+{
+	"name": "rptEarthquake",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_dev_rpt",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "earthquake_time_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "datetime_of_earthquake",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "updated_time_id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "updatetime_of_earthquake",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "magnitude",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "mag_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "place",
+				"type": "nvarchar"
+			},
+			{
+				"name": "web_link",
+				"type": "nvarchar"
+			},
+			{
+				"name": "alert",
+				"type": "nvarchar"
+			},
+			{
+				"name": "status",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tsunami_warning",
+				"type": "bit"
+			},
+			{
+				"name": "number_seismic_stations",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "title_of_feed",
+				"type": "nvarchar"
+			},
+			{
+				"name": "event_significance",
+				"type": "smallint",
+				"precision": 5
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "earthquake_info"
+		}
+	}
+}
