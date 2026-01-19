@@ -15,6 +15,10 @@
 			"sinks": [],
 			"transformations": [],
 			"scriptLines": [
+				"parameters{",
+				"     starttime as string (\"2026-01-01\"),",
+				"     endtime as string (\"2026-01-02\")",
+				"}",
 				"source(output(",
 				"          mag as double,",
 				"          place as string,",
