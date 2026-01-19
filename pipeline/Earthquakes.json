@@ -37,6 +37,16 @@
 				}
 			}
 		],
+		"variables": {
+			"starttime": {
+				"type": "String",
+				"defaultValue": "@utcNow('d')"
+			},
+			"endtime": {
+				"type": "String",
+				"defaultValue": "@adddays(utcNow('d'), 1, 'd')"
+			}
+		},
 		"annotations": []
 	}
 }
