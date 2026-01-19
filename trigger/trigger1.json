@@ -3,7 +3,18 @@
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Stopped",
-		"pipelines": [],
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "Earthquakes",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"starttime": "@utcNow('d')",
+					"endtime": "@adddays(utcNow('d'), 1, 'd')"
+				}
+			}
+		],
 		"type": "ScheduleTrigger",
 		"typeProperties": {
 			"recurrence": {
