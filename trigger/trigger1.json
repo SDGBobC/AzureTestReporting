@@ -8,10 +8,6 @@
 				"pipelineReference": {
 					"referenceName": "Earthquakes",
 					"type": "PipelineReference"
-				},
-				"parameters": {
-					"starttime": "@adddays(utcNow('d'), -1, 'd')",
-					"endtime": "@utcNow('d')"
 				}
 			}
 		],
