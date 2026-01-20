@@ -4,9 +4,13 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[earthquake_info]
+GO
+
 CREATE TABLE [dbo].[earthquake_info](
 	[earthquake_time_id] [bigint] NOT NULL,
 	[datetime_of_earthquake] [datetime] NULL,
+	[updated_time_id] [bigint] NOT NULL,
 	[updatetime_of_earthquake] [datetime] NULL,
 	[magnitude] [float] NOT NULL,
 	[mag_type] [nvarchar](50) NOT NULL,
