@@ -20,11 +20,11 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"starttime": {
-								"value": "'@{pipeline().parameters.starttime}'",
+								"value": "@adddays(utcNow('d'), -1, 'd')",
 								"type": "Expression"
 							},
 							"endtime": {
-								"value": "'@{pipeline().parameters.endtime}'",
+								"value": "@utcNow('d')",
 								"type": "Expression"
 							}
 						}
@@ -73,16 +73,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"starttime": {
-				"type": "string",
-				"defaultValue": "@adddays(utcNow('d'), -1, 'd')"
-			},
-			"endtime": {
-				"type": "string",
-				"defaultValue": "@utcNow('d')"
-			}
-		},
 		"annotations": []
 	}
 }
