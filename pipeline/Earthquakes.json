@@ -1,0 +1,88 @@
+{
+	"name": "Earthquakes",
+	"properties": {
+		"activities": [
+			{
+				"name": "EarthquakesTransform",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "EarthquakesTransform",
+						"type": "DataFlowReference",
+						"parameters": {
+							"starttime": {
+								"value": "'@{pipeline().parameters.starttime}'",
+								"type": "Expression"
+							},
+							"endtime": {
+								"value": "'@{pipeline().parameters.endtime}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "UpdateDates",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "EarthquakesTransform",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "ls_dev_rpt",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "update\tdbo.earthquake_info\nset\t\tdatetime_of_earthquake = dateadd(ms, earthquake_time_id, '1970-01-01T00:00:00.000Z'),\n\t\tupdatetime_of_earthquake = dateadd(ms, updated_time_id, '1970-01-01T00:00:00.000Z')\nfrom\tdbo.earthquake_info",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"parameters": {
+			"starttime": {
+				"type": "string",
+				"defaultValue": "@utcNow('d')"
+			},
+			"endtime": {
+				"type": "string",
+				"defaultValue": "@adddays(utcNow('d'), 1, 'd')"
+			}
+		},
+		"annotations": []
+	}
+}
