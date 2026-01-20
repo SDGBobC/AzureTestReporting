@@ -39,14 +39,6 @@
 			"type": "string",
 			"defaultValue": "sa_bc_sdg"
 		},
-		"trigger1_properties_Earthquakes_parameters_starttime": {
-			"type": "string",
-			"defaultValue": "@adddays(utcNow('d'), -1, 'd')"
-		},
-		"trigger1_properties_Earthquakes_parameters_endtime": {
-			"type": "string",
-			"defaultValue": "@utcNow('d')"
-		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -97,12 +89,6 @@
 					},
 					"ls_dev_stg_properties_typeProperties_userName": {
 						"value": "[parameters('ls_dev_stg_properties_typeProperties_userName')]"
-					},
-					"trigger1_properties_Earthquakes_parameters_starttime": {
-						"value": "[parameters('trigger1_properties_Earthquakes_parameters_starttime')]"
-					},
-					"trigger1_properties_Earthquakes_parameters_endtime": {
-						"value": "[parameters('trigger1_properties_Earthquakes_parameters_endtime')]"
 					}
 				}
 			},

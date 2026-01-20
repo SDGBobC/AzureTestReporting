@@ -38,14 +38,6 @@
 		"ls_dev_stg_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa_bc_sdg"
-		},
-		"trigger1_properties_Earthquakes_parameters_starttime": {
-			"type": "string",
-			"defaultValue": "@adddays(utcNow('d'), -1, 'd')"
-		},
-		"trigger1_properties_Earthquakes_parameters_endtime": {
-			"type": "string",
-			"defaultValue": "@utcNow('d')"
 		}
 	},
 	"variables": {
@@ -76,18 +68,19 @@
 								"type": "DataFlowReference",
 								"parameters": {
 									"starttime": {
-										"value": "'@{pipeline().parameters.starttime}'",
+										"value": "@adddays(utcNow('d'), -1, 'd')",
 										"type": "Expression"
 									},
 									"endtime": {
-										"value": "'@{pipeline().parameters.endtime}'",
+										"value": "@utcNow('d')",
 										"type": "Expression"
 									}
 								},
 								"datasetParameters": {
 									"earthquake": {},
 									"sink1": {}
-								}
+								},
+								"linkedServiceParameters": {}
 							},
 							"staging": {},
 							"compute": {
@@ -136,16 +129,6 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"starttime": {
-						"type": "string",
-						"defaultValue": "@adddays(utcNow('d'), -1, 'd')"
-					},
-					"endtime": {
-						"type": "string",
-						"defaultValue": "@utcNow('d')"
-					}
 				},
 				"annotations": []
 			},
@@ -435,10 +418,7 @@
 							"referenceName": "Earthquakes",
 							"type": "PipelineReference"
 						},
-						"parameters": {
-							"starttime": "[parameters('trigger1_properties_Earthquakes_parameters_starttime')]",
-							"endtime": "[parameters('trigger1_properties_Earthquakes_parameters_endtime')]"
-						}
+						"parameters": {}
 					}
 				],
 				"type": "ScheduleTrigger",
