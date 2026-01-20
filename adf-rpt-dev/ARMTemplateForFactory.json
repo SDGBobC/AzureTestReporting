@@ -66,16 +66,7 @@
 							"dataflow": {
 								"referenceName": "EarthquakesTransform",
 								"type": "DataFlowReference",
-								"parameters": {
-									"starttime": {
-										"value": "@adddays(utcNow('d'), -1, 'd')",
-										"type": "Expression"
-									},
-									"endtime": {
-										"value": "@utcNow('d')",
-										"type": "Expression"
-									}
-								},
+								"parameters": {},
 								"datasetParameters": {
 									"earthquake": {},
 									"sink1": {}
@@ -472,8 +463,8 @@
 					],
 					"scriptLines": [
 						"parameters{",
-						"     starttime as string (\"2026-01-01\"),",
-						"     endtime as string (\"2026-01-02\")",
+						"     starttime as string (toString(addDays(currentUTC(), -1))),",
+						"     endtime as string (toString(currentUTC()))",
 						"}",
 						"source(output(",
 						"          mag as double,",
