@@ -31,8 +31,8 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     starttime as string (\"2026-01-01\"),",
-				"     endtime as string (\"2026-01-02\")",
+				"     starttime as string (toString(addDays(currentUTC(), -1))),",
+				"     endtime as string (toString(currentUTC()))",
 				"}",
 				"source(output(",
 				"          mag as double,",
