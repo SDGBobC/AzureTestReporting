@@ -41,11 +41,11 @@
 		},
 		"trigger1_properties_Earthquakes_parameters_starttime": {
 			"type": "string",
-			"defaultValue": "@utcNow('d')"
+			"defaultValue": "@adddays(utcNow('d'), -1, 'd')"
 		},
 		"trigger1_properties_Earthquakes_parameters_endtime": {
 			"type": "string",
-			"defaultValue": "@adddays(utcNow('d'), 1, 'd')"
+			"defaultValue": "@utcNow('d')"
 		}
 	},
 	"variables": {
@@ -548,11 +548,11 @@
 				"parameters": {
 					"starttime": {
 						"type": "string",
-						"defaultValue": "@utcNow('d')"
+						"defaultValue": "@adddays(utcNow('d'), -1, 'd')"
 					},
 					"endtime": {
 						"type": "string",
-						"defaultValue": "@adddays(utcNow('d'), 1, 'd')"
+						"defaultValue": "@utcNow('d')"
 					}
 				},
 				"annotations": []
@@ -588,8 +588,7 @@
 						"interval": 1,
 						"startTime": "2026-01-21T11:00:00",
 						"endTime": "2026-01-23T20:45:00",
-						"timeZone": "Central Standard Time",
-						"schedule": {}
+						"timeZone": "Central Standard Time"
 					}
 				}
 			},
