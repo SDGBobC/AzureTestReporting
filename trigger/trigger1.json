@@ -10,8 +10,8 @@
 					"type": "PipelineReference"
 				},
 				"parameters": {
-					"starttime": "@utcNow('d')",
-					"endtime": "@adddays(utcNow('d'), 1, 'd')"
+					"starttime": "@adddays(utcNow('d'), -1, 'd')",
+					"endtime": "@utcNow('d')"
 				}
 			}
 		],

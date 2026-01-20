@@ -76,11 +76,11 @@
 		"parameters": {
 			"starttime": {
 				"type": "string",
-				"defaultValue": "@utcNow('d')"
+				"defaultValue": "@adddays(utcNow('d'), -1, 'd')"
 			},
 			"endtime": {
 				"type": "string",
-				"defaultValue": "@adddays(utcNow('d'), 1, 'd')"
+				"defaultValue": "@utcNow('d')"
 			}
 		},
 		"annotations": []
