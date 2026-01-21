@@ -334,7 +334,7 @@
 								"referenceName": "rptEarthquake",
 								"type": "DatasetReference"
 							},
-							"name": "sink1"
+							"name": "earthquakeInfo"
 						}
 					],
 					"transformations": [
@@ -342,12 +342,12 @@
 							"name": "selectColumns"
 						},
 						{
-							"name": "derivedColumn1"
+							"name": "deriveDefaultTimes"
 						}
 					],
 					"scriptLines": [
 						"parameters{",
-						"     starttime as string (toString(addDays(currentUTC(), -1))),",
+						"     starttime as string (toString(addDays(currentUTC(),-1))),",
 						"     endtime as string (toString(currentUTC()))",
 						"}",
 						"source(output(",
@@ -400,8 +400,8 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> selectColumns",
 						"selectColumns derive(datetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC'),",
-						"          updatetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC')) ~> derivedColumn1",
-						"derivedColumn1 sink(allowSchemaDrift: true,",
+						"          updatetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC')) ~> deriveDefaultTimes",
+						"deriveDefaultTimes sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
 						"          earthquake_time_id as long,",
@@ -443,7 +443,7 @@
 						"          number_seismic_stations,",
 						"          title_of_feed,",
 						"          event_significance",
-						"     )) ~> sink1"
+						"     )) ~> earthquakeInfo"
 					]
 				}
 			},
@@ -453,7 +453,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Earthquakes')]",
+			"name": "[concat(parameters('factoryName'), '/EarthquakesReporting')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -477,9 +477,8 @@
 								"parameters": {},
 								"datasetParameters": {
 									"earthquake": {},
-									"sink1": {}
-								},
-								"linkedServiceParameters": {}
+									"earthquakeInfo": {}
+								}
 							},
 							"staging": {},
 							"compute": {
@@ -546,7 +545,7 @@
 				"pipelines": [
 					{
 						"pipelineReference": {
-							"referenceName": "Earthquakes",
+							"referenceName": "EarthquakesReporting",
 							"type": "PipelineReference"
 						},
 						"parameters": {}
@@ -559,13 +558,12 @@
 						"interval": 1,
 						"startTime": "2026-01-21T10:00:00",
 						"endTime": "2026-01-23T20:45:00",
-						"timeZone": "Central Standard Time",
-						"schedule": {}
+						"timeZone": "Central Standard Time"
 					}
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Earthquakes')]"
+				"[concat(variables('factoryId'), '/pipelines/EarthquakesReporting')]"
 			]
 		}
 	]
