@@ -6,12 +6,8 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "Earthquakes",
+					"referenceName": "EarthquakesReporting",
 					"type": "PipelineReference"
-				},
-				"parameters": {
-					"starttime": "@utcNow('d')",
-					"endtime": "@adddays(utcNow('d'), 1, 'd')"
 				}
 			}
 		],
@@ -20,7 +16,7 @@
 			"recurrence": {
 				"frequency": "Day",
 				"interval": 1,
-				"startTime": "2026-01-21T11:00:00",
+				"startTime": "2026-01-21T10:00:00",
 				"endTime": "2026-01-23T20:45:00",
 				"timeZone": "Central Standard Time"
 			}

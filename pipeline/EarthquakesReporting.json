@@ -1,5 +1,5 @@
 {
-	"name": "Earthquakes",
+	"name": "EarthquakesReporting",
 	"properties": {
 		"activities": [
 			{
@@ -17,17 +17,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "EarthquakesTransform",
-						"type": "DataFlowReference",
-						"parameters": {
-							"starttime": {
-								"value": "'@{pipeline().parameters.starttime}'",
-								"type": "Expression"
-							},
-							"endtime": {
-								"value": "'@{pipeline().parameters.endtime}'",
-								"type": "Expression"
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
@@ -73,16 +63,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"starttime": {
-				"type": "string",
-				"defaultValue": "@utcNow('d')"
-			},
-			"endtime": {
-				"type": "string",
-				"defaultValue": "@adddays(utcNow('d'), 1, 'd')"
-			}
-		},
 		"annotations": []
 	}
 }
