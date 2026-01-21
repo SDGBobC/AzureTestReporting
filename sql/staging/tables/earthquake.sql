@@ -4,33 +4,36 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
+DROP TABLE IF EXISTS [dbo].[earthquake]
+GO
+
 CREATE TABLE [dbo].[earthquake](
-	[mag] [float] NOT NULL,
-	[place] [nvarchar](50) NOT NULL,
-	[time] [bigint] NOT NULL,
-	[updated] [bigint] NOT NULL,
+	[mag] [float] NULL,
+	[place] [nvarchar](50) NULL,
+	[time] [bigint] NULL,
+	[updated] [bigint] NULL,
 	[tz] [nvarchar](1) NULL,
-	[url] [nvarchar](200) NOT NULL,
-	[detail] [nvarchar](400) NOT NULL,
+	[url] [nvarchar](200) NULL,
+	[detail] [nvarchar](400) NULL,
 	[felt] [smallint] NULL,
 	[cdi] [float] NULL,
 	[mmi] [float] NULL,
 	[alert] [nvarchar](50) NULL,
-	[status] [nvarchar](50) NOT NULL,
-	[tsunami] [bit] NOT NULL,
-	[sig] [smallint] NOT NULL,
-	[net] [nvarchar](50) NOT NULL,
-	[code] [nvarchar](50) NOT NULL,
-	[ids] [nvarchar](100) NOT NULL,
-	[sources] [nvarchar](50) NOT NULL,
-	[types] [nvarchar](400) NOT NULL,
+	[status] [nvarchar](50) NULL,
+	[tsunami] [bit] NULL,
+	[sig] [smallint] NULL,
+	[net] [nvarchar](50) NULL,
+	[code] [nvarchar](50) NULL,
+	[ids] [nvarchar](100) NULL,
+	[sources] [nvarchar](50) NULL,
+	[types] [nvarchar](400) NULL,
 	[nst] [smallint] NULL,
-	[dmin] [float] NOT NULL,
-	[rms] [float] NOT NULL,
-	[gap] [smallint] NOT NULL,
-	[magType] [nvarchar](50) NOT NULL,
-	[type] [nvarchar](50) NOT NULL,
-	[title] [nvarchar](100) NOT NULL
+	[dmin] [float] NULL,
+	[rms] [float] NULL,
+	[gap] [smallint] NULL,
+	[magType] [nvarchar](50) NULL,
+	[type] [nvarchar](50) NULL,
+	[title] [nvarchar](100) NULL
 ) ON [PRIMARY]
 GO
 
