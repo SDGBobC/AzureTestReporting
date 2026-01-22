@@ -226,6 +226,47 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/earthquake_load_log')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_dev_rpt",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "runDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "starttime",
+						"type": "varchar"
+					},
+					{
+						"name": "endtime",
+						"type": "varchar"
+					},
+					{
+						"name": "rows",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "earthquake_load_log"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_dev_rpt')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/rptEarthquake')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -306,47 +347,6 @@
 				"typeProperties": {
 					"schema": "dbo",
 					"table": "earthquake_info"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_dev_rpt')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/earthquake_load_log')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_dev_rpt",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "runDate",
-						"type": "datetime",
-						"precision": 23,
-						"scale": 3
-					},
-					{
-						"name": "starttime",
-						"type": "varchar"
-					},
-					{
-						"name": "endtime",
-						"type": "varchar"
-					},
-					{
-						"name": "rows",
-						"type": "int",
-						"precision": 10
-					}
-				],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "earthquake_load_log"
 				}
 			},
 			"dependsOn": [
@@ -619,7 +619,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/trigger1')]",
+			"name": "[concat(parameters('factoryName'), '/EarthquakeLoad')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -640,7 +640,7 @@
 						"frequency": "Day",
 						"interval": 1,
 						"startTime": "2026-01-21T10:00:00",
-						"endTime": "2026-01-23T20:45:00",
+						"endTime": "2026-01-24T20:45:00",
 						"timeZone": "Central Standard Time"
 					}
 				}
