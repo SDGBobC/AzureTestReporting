@@ -72,7 +72,8 @@
 								},
 								"datasetParameters": {
 									"earthquake": {},
-									"earthquakeInfo": {}
+									"earthquakeInfo": {},
+									"Log": {}
 								}
 							},
 							"staging": {},
@@ -452,6 +453,13 @@
 								"type": "DatasetReference"
 							},
 							"name": "earthquakeInfo"
+						},
+						{
+							"dataset": {
+								"referenceName": "earthquake_load_log",
+								"type": "DatasetReference"
+							},
+							"name": "Log"
 						}
 					],
 					"transformations": [
@@ -460,6 +468,12 @@
 						},
 						{
 							"name": "deriveDefaultTimes"
+						},
+						{
+							"name": "CountRows"
+						},
+						{
+							"name": "AddParamters"
 						}
 					],
 					"scriptLines": [
@@ -518,6 +532,9 @@
 						"     skipDuplicateMapOutputs: true) ~> selectColumns",
 						"selectColumns derive(datetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC'),",
 						"          updatetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC')) ~> deriveDefaultTimes",
+						"selectColumns aggregate(rowcount = count(earthquake_time_id)) ~> CountRows",
+						"CountRows derive(starttime = $starttime,",
+						"          endtime = $endtime) ~> AddParamters",
 						"deriveDefaultTimes sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
@@ -560,13 +577,76 @@
 						"          number_seismic_stations,",
 						"          title_of_feed,",
 						"          event_significance",
-						"     )) ~> earthquakeInfo"
+						"     )) ~> earthquakeInfo",
+						"AddParamters sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          runDate as timestamp,",
+						"          starttime as string,",
+						"          endtime as string,",
+						"          rows as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          starttime,",
+						"          endtime,",
+						"          rows = rowcount",
+						"     )) ~> Log"
 					]
 				}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/earthquake')]",
-				"[concat(variables('factoryId'), '/datasets/rptEarthquake')]"
+				"[concat(variables('factoryId'), '/datasets/rptEarthquake')]",
+				"[concat(variables('factoryId'), '/datasets/earthquake_load_log')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/earthquake_load_log')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_dev_rpt",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "runDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					},
+					{
+						"name": "starttime",
+						"type": "varchar"
+					},
+					{
+						"name": "endtime",
+						"type": "varchar"
+					},
+					{
+						"name": "rows",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "earthquake_load_log"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_dev_rpt')]"
 			]
 		}
 	]
