@@ -1,0 +1,36 @@
+{
+	"name": "earthquake_load_log",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_dev_rpt",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "runDate",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "starttime",
+				"type": "varchar"
+			},
+			{
+				"name": "endtime",
+				"type": "varchar"
+			},
+			{
+				"name": "rows",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "earthquake_load_log"
+		}
+	}
+}
