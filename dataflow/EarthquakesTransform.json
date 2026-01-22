@@ -19,6 +19,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "earthquakeInfo"
+				},
+				{
+					"dataset": {
+						"referenceName": "earthquake_load_log",
+						"type": "DatasetReference"
+					},
+					"name": "Log"
 				}
 			],
 			"transformations": [
@@ -27,12 +34,18 @@
 				},
 				{
 					"name": "deriveDefaultTimes"
+				},
+				{
+					"name": "CountRows"
+				},
+				{
+					"name": "AddParamters"
 				}
 			],
 			"scriptLines": [
 				"parameters{",
-				"     starttime as string (toString(addDays(currentUTC(),-1))),",
-				"     endtime as string (toString(currentUTC()))",
+				"     starttime as string (toString(addDays(currentUTC(),-1),'yyyy-MM-dd')),",
+				"     endtime as string (toString(currentUTC(),'yyyy-MM-dd'))",
 				"}",
 				"source(output(",
 				"          mag as double,",
@@ -85,6 +98,9 @@
 				"     skipDuplicateMapOutputs: true) ~> selectColumns",
 				"selectColumns derive(datetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC'),",
 				"          updatetime_of_earthquake = toDate('1970-01-01T00:00:00.000Z', \"yyyy-MM-dd'T'HH:mm:ss.SSS\", 'UTC')) ~> deriveDefaultTimes",
+				"selectColumns aggregate(rowcount = count(earthquake_time_id)) ~> CountRows",
+				"CountRows derive(starttime = $starttime,",
+				"          endtime = $endtime) ~> AddParamters",
 				"deriveDefaultTimes sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -127,7 +143,28 @@
 				"          number_seismic_stations,",
 				"          title_of_feed,",
 				"          event_significance",
-				"     )) ~> earthquakeInfo"
+				"     )) ~> earthquakeInfo",
+				"AddParamters sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          runDate as timestamp,",
+				"          starttime as string,",
+				"          endtime as string,",
+				"          rows as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          starttime,",
+				"          endtime,",
+				"          rows = rowcount",
+				"     )) ~> Log"
 			]
 		}
 	}
